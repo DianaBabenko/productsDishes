@@ -1,12 +1,9 @@
 <?php
 
-
 namespace App\Http\Controllers\Recipe;
-
 
 use App\Http\Controllers\Controller;
 use App\Repositories\ProductRepository;
-use App\Repositories\RecipeCategoryRepository;
 use App\Repositories\RecipeRepository;
 use App\Repositories\RecipeSubcategoryRepository;
 use Illuminate\View\View;
@@ -58,22 +55,6 @@ class RecipeController extends Controller
             'subcategory' => $subcategory
         ]);
     }
-
-//    public function getRecipesBySubcategoryId(int $id)
-//    {
-//        $paginateRecipes = $this->recipes->all();
-//        $subcategory = $this->recipeSubcategories->find($id);
-//
-//        if ($subcategory === null) {
-//            throw new NotFoundHttpException();
-//        }
-//
-//        return view('recipes.subcategory.index', [
-//            'recipes' => $paginateRecipes,
-//            'subcategory' => $subcategory
-//        ]);
-//    }
-
 
     /**
      * @param int $id

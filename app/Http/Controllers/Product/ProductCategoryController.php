@@ -44,6 +44,4 @@ class ProductCategoryController extends Controller
         ]);
 
     }
-
-
 }

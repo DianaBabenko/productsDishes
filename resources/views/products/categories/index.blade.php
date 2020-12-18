@@ -6,7 +6,7 @@
             <div class="col-12">
                 <div class="">
                     <div class="header-div row justify-content-center shadow-sm radius-div mx-auto" style="width: 40%;">
-                        <h3 class="mt-2">Products</h3>
+                        <h3 class="mt-2">My Products</h3>
                     </div>
                     <form method="POST" action="{{ route('products.categories.save') }}">
                         @csrf
