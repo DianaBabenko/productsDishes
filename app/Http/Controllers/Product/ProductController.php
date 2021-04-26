@@ -3,54 +3,50 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\ProductCategoryRepository;
+use App\Models\Product;
 use App\Repositories\ProductRepository;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+/**
+ * Class ProductController
+ * @package App\Http\Controllers\Product
+ */
 class ProductController extends Controller
 {
-    /** @var ProductRepository  */
+    /**
+     * @var ProductRepository
+     */
     private $products;
-    /** @var ProductCategoryRepository  */
-    private $productsCategories;
 
-    public function __construct(ProductRepository $products, ProductCategoryRepository $productsCategories)
+    /**
+     * ProductController constructor.
+     * @param ProductRepository $products
+     */
+    public function __construct(ProductRepository $products)
     {
         $this->products = $products;
-        $this->productsCategories = $productsCategories;
     }
 
     /**
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return RedirectResponse
      */
-    public function save(Request $request)
+    public function save(Request $request): RedirectResponse
     {
         $productIds = $request->post('product');
-
         $result = $this->products->setStatusActive($productIds);
 
-        if ($result === true) {
-            $categories = $this->productsCategories->all();
-            $products = $this->products->all();
-
-            return view('products.categories.index', [
-                'categories' => $categories,
-                'products' => $products
-            ]);
-        }
+        return $result === true ? redirect()->route('products.categories.index') : redirect()->back()->withInput();
     }
 
-    public function edit(int $id)
+    /**
+     * @param Product $product
+     * @return View
+     */
+    public function edit(Product $product): View
     {
-        $product = $this->products->find($id);
-
-        if ($product === null) {
-            throw new NotFoundHttpException();
-        }
-
         return view('products.edit', [
             'product' => $product,
         ]);
@@ -59,29 +55,15 @@ class ProductController extends Controller
 
     /**
      * @param Request $request
-     * @param int $id
+     * @param Product $product
      * @return RedirectResponse
      */
-    public function update(Request $request, int $id ): RedirectResponse
+    public function update(Request $request, Product $product): RedirectResponse
     {
         $data = $request;
-        $product = $this->products->find($id);
+        $result = $this->products->update($data, $product->id);
 
-        if ($product === null) {
-            throw new NotFoundHttpException();
-        }
-
-
-        if ($this->products->update($data, $id)) {
-            $categories = $this->productsCategories->all();
-            $products = $this->products->all();
-
-            return redirect()->route('products.categories.index', [
-                'categories' => $categories,
-                'products' => $products
-            ]);
-        }
-
+        return $result === true ? redirect()->route('products.categories.index') : redirect()->back()->withInput();
     }
 }
 

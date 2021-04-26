@@ -15,8 +15,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class RecipeSubcategory extends Model
 {
+    public $timestamps = false;
+
+    /**
+     * @var array
+     */
     protected $fillable = [
-        'name'
+        'name',
+        'image'
     ];
 
     /**

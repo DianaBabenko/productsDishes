@@ -1,20 +1,26 @@
 <?php
 
-
 namespace App\Http\Controllers\Recipe;
-
 
 use App\Http\Controllers\Controller;
 use App\Repositories\RecipeCategoryRepository;
 use App\Repositories\RecipeSubcategoryRepository;
-use Illuminate\View\View;
+use Illuminate\Contracts\View\View;
 
+/**
+ * Class RecipeCategoryController
+ * @package App\Http\Controllers\Recipe
+ */
 class RecipeCategoryController extends Controller
 {
-    /** @var RecipeCategoryRepository */
+    /**
+     * @var RecipeCategoryRepository
+     */
     private $recipesCategories;
 
-    /** @var RecipeSubcategoryRepository */
+    /**
+     * @var RecipeSubcategoryRepository
+     */
     private $recipesSubcategories;
 
     /**
@@ -32,7 +38,7 @@ class RecipeCategoryController extends Controller
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|View
+     * @return View
      */
     public function index(): View
     {

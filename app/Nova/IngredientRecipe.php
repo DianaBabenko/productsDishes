@@ -3,26 +3,27 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\Code;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Image;
-use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Number;
 
-class RecipeCategory extends Resource
+class IngredientRecipe extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = 'App\Models\RecipeCategory';
+    public static $model = 'App\Models\IngredientRecipe';
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'id';
 
     /**
      * The columns that should be searched.
@@ -44,26 +45,12 @@ class RecipeCategory extends Resource
         return [
             ID::make()->sortable(),
 
-            Text::make('Name')
-                ->sortable()
-                ->rules('required', 'max:255'),
+            BelongsTo::make('Recipe', 'recipe', Recipe::class),
+            BelongsTo::make('Product', 'product', Product::class),
 
-            Image::make('Attachment')
-                ->store(function (Request $request) {
-                    $name = Str::slug(Str::random(15)) . '_' . time();
-                    $filename = $name . '.' . $request->attachment->getClientOriginalExtension();
-                    $request->attachment->storeAs('/uploads/recipe_categories', $filename, ['disk' => 'recipe_categories']);
-
-                    return [
-                        'image' => $filename,
-                    ];
-                })->onlyOnForms(),
-
-            Text::make('image', function() {
-                return view('nova.photo', [
-                    'image' => $this,
-                ])->render();
-            })->asHtml(),
+            Number::make('Count'),
+            BelongsTo::make('Measurement', 'measurement', Measurement::class),
+            Code::make('Product Substitutes', 'product_substitutes')->json(),
         ];
     }
 
@@ -73,7 +60,7 @@ class RecipeCategory extends Resource
      * @param  Request  $request
      * @return array
      */
-    public function cards(Request $request)
+    public function cards(Request $request): array
     {
         return [];
     }
@@ -84,7 +71,7 @@ class RecipeCategory extends Resource
      * @param  Request  $request
      * @return array
      */
-    public function filters(Request $request)
+    public function filters(Request $request): array
     {
         return [];
     }
@@ -95,7 +82,7 @@ class RecipeCategory extends Resource
      * @param  Request  $request
      * @return array
      */
-    public function lenses(Request $request)
+    public function lenses(Request $request): array
     {
         return [];
     }
@@ -106,7 +93,7 @@ class RecipeCategory extends Resource
      * @param  Request  $request
      * @return array
      */
-    public function actions(Request $request)
+    public function actions(Request $request): array
     {
         return [];
     }

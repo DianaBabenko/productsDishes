@@ -5,7 +5,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-11">
-                <form method="POST" action="{{ route('account.update', [$user->id]) }}">
+                <form method="POST" action="{{ route('account.update', [$user->id]) }}" enctype="multipart/form-data">
                     @method('PATCH')
                     @csrf
                     <div class="col-md-12">
@@ -51,6 +51,12 @@
                                            class="form-control field-input__div"
                                            required
                                     >
+                                </div>
+                                <div class="col-3 mb-3">
+                                    <label>Photo</label>
+                                    <div class="">
+                                        <input type="file" value="{{ $user->image ?: '' }}" name="image">
+                                    </div>
                                 </div>
                             </div>
                             <div class="row justify-content-center">

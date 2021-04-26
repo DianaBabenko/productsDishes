@@ -1,22 +1,26 @@
 <?php
 
-
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\ProductCategoryRepository;
 use App\Repositories\ProductRepository;
+use Illuminate\Contracts\View\View;
 
-
-use Illuminate\Http\Request;
-use Illuminate\View\View;
-
+/**
+ * Class ProductCategoryController
+ * @package App\Http\Controllers\Product
+ */
 class ProductCategoryController extends Controller
 {
-
-    /** @var ProductCategoryRepository */
+    /**
+     * @var ProductCategoryRepository
+     */
     private $productsCategories;
-    /** @var ProductRepository  */
+
+    /**
+     * @var ProductRepository
+     */
     private $products;
 
     /**
@@ -24,16 +28,18 @@ class ProductCategoryController extends Controller
      * @param ProductCategoryRepository $productsCategories
      * @param ProductRepository $products
      */
-    public function __construct(ProductCategoryRepository $productsCategories, ProductRepository $products)
+    public function __construct(
+        ProductCategoryRepository $productsCategories,
+        ProductRepository $products)
     {
         $this->productsCategories = $productsCategories;
         $this->products = $products;
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
         $categories = $this->productsCategories->all();
         $products = $this->products->all();
@@ -42,6 +48,5 @@ class ProductCategoryController extends Controller
             'categories' => $categories,
             'products' => $products
         ]);
-
     }
 }

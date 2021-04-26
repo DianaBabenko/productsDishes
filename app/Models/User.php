@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Http\Traits\ImageTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Class User
@@ -16,14 +17,13 @@ use Illuminate\Support\Facades\Date;
  * @property string patronymic
  * @property string email
  * @property string password
+ * @property string image
  */
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use ImageTrait, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
-     *
      * @var array
      */
     protected $fillable = [
@@ -32,11 +32,10 @@ class User extends Authenticatable
         'patronymic',
         'email',
         'password',
+        'image'
     ];
 
     /**
-     * The attributes that should be hidden for arrays.
-     *
      * @var array
      */
     protected $hidden = [
@@ -45,11 +44,32 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be cast to native types.
-     *
      * @var array
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * @return BelongsToMany
+     */
+    public function product(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Product::class,
+            'user_product',
+            'product_id',
+            'user_id',
+            'id',
+            'id'
+        );
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrl(): string
+    {
+        return Storage::disk('users')->url($this->image);
+    }
 }

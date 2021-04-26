@@ -42,6 +42,27 @@ return [
             'visibility' => 'public',
         ],
 
+        'users' => [
+            'driver' => 'local',
+            'root' => public_path(),
+            'url' => env('APP_URL').'/storage/uploads/users',
+            'visibility' => 'public',
+        ],
+
+        'recipes' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public'),
+            'url' => env('APP_URL').'/storage/uploads/recipes',
+            'visibility' => 'public',
+        ],
+
+        'recipe_categories' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public'),
+            'url' => env('APP_URL').'/storage/uploads/recipe_categories',
+            'visibility' => 'public',
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

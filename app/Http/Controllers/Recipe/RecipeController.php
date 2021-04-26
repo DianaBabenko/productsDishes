@@ -3,80 +3,71 @@
 namespace App\Http\Controllers\Recipe;
 
 use App\Http\Controllers\Controller;
+use App\Models\Recipe;
+use App\Models\RecipeSubcategory;
 use App\Repositories\ProductRepository;
 use App\Repositories\RecipeRepository;
-use App\Repositories\RecipeSubcategoryRepository;
-use Illuminate\View\View;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Contracts\View\View;
 
+/**
+ * Class RecipeController
+ * @package App\Http\Controllers\Recipe
+ */
 class RecipeController extends Controller
 {
-    /** @var RecipeRepository */
+    /**
+     * @var RecipeRepository
+     */
     private $recipes;
 
-    /** @var ProductRepository */
+    /**
+     * @var ProductRepository
+     */
     private $products;
-
-    /** @var RecipeSubcategoryRepository */
-    private $recipeSubcategories;
 
     /**
      * RecipeController constructor.
      * @param RecipeRepository $recipes
      * @param ProductRepository $products
-     * @param RecipeSubcategoryRepository $recipeSubcategories
      */
     public function __construct(
         RecipeRepository $recipes,
-        ProductRepository $products,
-        RecipeSubcategoryRepository $recipeSubcategories
+        ProductRepository $products
     )
     {
         $this->recipes = $recipes;
         $this->products = $products;
-        $this->recipeSubcategories = $recipeSubcategories;
     }
 
     /**
-     * @param int $id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|View
+     * @param RecipeSubcategory $recipeSubcategory
+     * @return View
      */
-    public function index(int $id)
+    public function index(RecipeSubcategory $recipeSubcategory): View
     {
         $paginateRecipes = $this->recipes->all();
-        $subcategory = $this->recipeSubcategories->find($id);
-
-        if ($subcategory === null) {
-            throw new NotFoundHttpException();
-        }
 
         return view('recipes.subcategory.index', [
             'recipes' => $paginateRecipes,
-            'subcategory' => $subcategory
+            'subcategory' => $recipeSubcategory
         ]);
     }
 
     /**
-     * @param int $id
-     * @param int $recipe_id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|View
+     * @param RecipeSubcategory $recipeSubcategory
+     * @param Recipe $recipe
+     * @return View
      */
-    public function show(int $id, int $recipe_id)
+    public function show(RecipeSubcategory $recipeSubcategory, Recipe $recipe): View
     {
-        $recipe = $this->recipes->find($recipe_id);
-
-        if ($recipe === null) {
-            throw new NotFoundHttpException();
-        }
-
         return view('recipes.subcategory.show', [
             'recipe' => $recipe,
-            'id' => $id
+            'id' => $recipeSubcategory->id
         ]);
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|View
+     * @return View
      */
     public function generateDishes(): View
     {

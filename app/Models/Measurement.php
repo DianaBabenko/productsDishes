@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class ProductCategory
- *
+ * Class Measurement
  * @package App\Models
  * @property int id
- * @property string name
+ * @property string title
+ * @property string type
  */
-class ProductCategory extends Model
+class Measurement extends Model
 {
     public $timestamps = false;
 
@@ -19,6 +19,7 @@ class ProductCategory extends Model
      * @var array
      */
     protected $fillable = [
-        'name'
+      'title',
+      'type'
     ];
 }

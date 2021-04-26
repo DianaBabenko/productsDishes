@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Recipes extends Migration
+class CreateRecipesTable extends Migration
 {
     /**
      * @return void
@@ -19,6 +19,9 @@ class Recipes extends Migration
             $table->integer('cookTime');
             $table->integer('ingredientsNumber');
             $table->integer('subcategory_id');
+            $table->string('image')->nullable();
+            $table->bigInteger('user_id')->nullable();
+            $table->integer('status');
             $table->timestamps();
         });
     }

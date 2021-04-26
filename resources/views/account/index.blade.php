@@ -20,18 +20,23 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="row justify-content-center ">
-                            <div class="info-card__div radius-div col-5 mb-3 mr-3">
-                                <h5>Name: {{$user->name}}</h5>
+                        <div class="row flex justify-content-center">
+                            <div class="col-4 ml-6">
+                                <img class="" style="height: 200px; border-radius: 20px;" src="{{$user->getUrl()}}" alt="photo">
                             </div>
-                            <div class="info-card__div radius-div col-5 mb-3 mr-3">
-                                <h5>Surname: {{$user->surname}}</h5>
-                            </div>
-                            <div class="info-card__div radius-div col-5 mb-3 mr-3">
-                                <h5>Patronymic: {{$user->patronymic}}</h5>
-                            </div>
-                            <div class="info-card__div radius-div col-5 mb-3 mr-3">
-                                <h5>Email: {{$user->email}}</h5>
+                            <div class="col ml-2 justify-content-center ">
+                                <div class="info-card__div radius-div col-8 mb-3 mr-3">
+                                    <h5>Name: {{$user->name}}</h5>
+                                </div>
+                                <div class="info-card__div radius-div col-8 mb-3 mr-3">
+                                    <h5>Surname: {{$user->surname}}</h5>
+                                </div>
+                                <div class="info-card__div radius-div col-8 mb-3 mr-3">
+                                    <h5>Patronymic: {{$user->patronymic}}</h5>
+                                </div>
+                                <div class="info-card__div radius-div col-8 mb-3 mr-3">
+                                    <h5>Email: {{$user->email}}</h5>
+                                </div>
                             </div>
                         </div>
                     </div>

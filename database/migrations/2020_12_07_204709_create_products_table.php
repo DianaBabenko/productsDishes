@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Products extends Migration
+class CreateProductsTable extends Migration
 {
     /**
      * @return void
@@ -17,6 +17,8 @@ class Products extends Migration
             $table->integer('status');
             $table->bigInteger('category_id');
             $table->date('expirationDate');
+            $table->string('image')->nullable();
+
         });
     }
 

@@ -3,14 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
+use App\Http\Traits\ImageTrait;
+use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
+use \Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+/**
+ * Class UserController
+ * @package App\Http\Controllers
+ */
 class UserController extends Controller
 {
-    /** @var UserRepository */
+    use ImageTrait;
+
+    /**
+     * @var UserRepository
+     */
     private $users;
 
     /**
@@ -23,9 +35,9 @@ class UserController extends Controller
     }
 
     /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|View
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
         $user = $this->users->find(auth()->user()->id);
 
@@ -39,17 +51,11 @@ class UserController extends Controller
     }
 
     /**
-     * @param int $id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|View
+     * @param User $user
+     * @return View
      */
-    public function edit(int $id)
+    public function edit(User $user): View
     {
-        $user = $this->users->find($id);
-
-        if ($user === null) {
-            throw new NotFoundHttpException();
-        }
-
         return view('account.edit', [
             'user' => $user,
         ]);
@@ -65,19 +71,20 @@ class UserController extends Controller
         $user = $this->users->find($user_id);
 
         if ($user === null) {
-            return back()
-                ->withInput();
+            return back()->withInput();
         }
 
-        $updateUser = $request->all();
-        $result = $user->update($updateUser);
+        $data = $request->input();
 
-        if ($result === true) {
-            return redirect()
-                ->route('account.index');
+        if ($request->has('image')) {
+            $filepath = $this->generateFilePath($request, '/uploads/users');
+            Storage::disk('users')->url($filepath);
+            $user->image = $filepath;
+            $user->save();
         }
 
-        return back()
-            ->withInput();
+        $result = $user->update($data);
+
+        return $result === true ? redirect()->route('account.index') : back()->withInput();
     }
 }
