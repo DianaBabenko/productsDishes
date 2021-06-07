@@ -39,9 +39,9 @@ class Product extends Model
         'expirationDate' => 'date'
     ];
 
-    public static $STATUS_ACTIVE = 1; // активно
-    public static $STATUS_FORBIDDEN = 2; // заборонено
-    public static $STATUS_AVAILABLE = 3; // доступно
+    public const STATUS_ACTIVE = 1; // активно
+    public const STATUS_FORBIDDEN = 2; // заборонено
+    public const STATUS_AVAILABLE = 3; // доступно
 
     /**
      * @return BelongsTo

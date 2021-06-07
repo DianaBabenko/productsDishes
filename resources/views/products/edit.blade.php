@@ -16,15 +16,15 @@
 
                         <div class="card-body row main-div radius-div my-2 justify-content-center mx-2" style="width: 100%">
                             <div class="row ml-3 mb-3">
-                                @if ($product->status ===\App\Models\Product::$STATUS_AVAILABLE)
+                                @if ($product->status ===\App\Models\Product::STATUS_AVAILABLE)
                                     <div class=" mt-1">
-                                        <input class="ml-1 mt-1" type="checkbox" name="status" value="{{\App\Models\Product::$STATUS_FORBIDDEN}}"/>
+                                        <input class="ml-1 mt-1" type="checkbox" name="status" value="{{\App\Models\Product::STATUS_FORBIDDEN}}"/>
                                         <span>Is it danger for you?</span>
                                     </div>
                                 @endif
-                                @if ($product->status === \App\Models\Product::$STATUS_ACTIVE)
+                                @if ($product->status === \App\Models\Product::STATUS_ACTIVE)
                                     <div class=" mt-1">
-                                        <input class="ml-1 mt-1" type="checkbox" name="status" value="{{\App\Models\Product::$STATUS_FORBIDDEN}}"/>
+                                        <input class="ml-1 mt-1" type="checkbox" name="status" value="{{\App\Models\Product::STATUS_FORBIDDEN}}"/>
                                         <span>Is it danger for you?</span><span class="mx-3">or</span>
                                     </div>
                                     <div class="">
@@ -33,12 +33,12 @@
                                     </div>
                                 @endif
 
-                                @if ($product->status === \App\Models\Product::$STATUS_FORBIDDEN)
+                                @if ($product->status === \App\Models\Product::STATUS_FORBIDDEN)
                                     <span class="bg-danger mr-4">
                                        <h4>This product is danger for you</h4>
                                     </span>
                                     <div>
-                                        <input class="mt-1 mr-1" type="checkbox" name="status" value="{{\App\Models\Product::$STATUS_AVAILABLE}}"/>
+                                        <input class="mt-1 mr-1" type="checkbox" name="status" value="{{\App\Models\Product::STATUS_AVAILABLE}}"/>
                                         Make it available for you:
                                     </div>
                                     @endif

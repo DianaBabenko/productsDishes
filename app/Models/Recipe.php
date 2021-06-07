@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Http\Traits\ImageTrait;
 use Facade\FlareClient\Time\Time;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -60,18 +59,10 @@ class Recipe extends Model
         return $this->belongsTo(RecipeSubcategory::class, 'subcategory_id', 'id');
     }
 
-//    /**
-//     * @return BelongsToMany
-//     */
-//    public function products(): BelongsToMany
-//    {
-//        return $this->belongsToMany(Product::class);
-//    }
-
     /**
      * @return BelongsToMany
      */
-    public function product(): BelongsToMany
+    public function productIngredients(): BelongsToMany
     {
         return $this->belongsToMany(
             Product::class,

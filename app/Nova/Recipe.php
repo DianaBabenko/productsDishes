@@ -6,6 +6,8 @@ use App\Http\Traits\ImageTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Number;
@@ -81,10 +83,12 @@ class Recipe extends Resource
             BelongsTo::make(  'Subcategory', 'subcategory', RecipeSubcategory::class),
             BelongsTo::make('User', 'user', User::class),
             Select::make('Status')->options([
-                1=> 'active'       ,
-                'in progress' ,
-                'denied'
+                \App\Models\Product::STATUS_ACTIVE => 'active'       ,
+                \App\Models\Product::STATUS_FORBIDDEN => 'in progress' ,
+                \App\Models\Product::STATUS_AVAILABLE => 'denied'
             ]),
+
+//            BelongsToMany::make('Products', 'productIngredients')->fields(new IngredientRecipe)
         ];
     }
 

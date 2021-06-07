@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 /**
@@ -18,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 class IngredientRecipe extends Pivot
 {
     public $timestamps = false;
+    public $incrementing = true;
 
     protected $table = 'product_recipe';
 
@@ -30,6 +30,13 @@ class IngredientRecipe extends Pivot
         'count',
         'measurement_id',
         'product_substitutes'
+    ];
+
+    /**
+     * @var array
+     */
+    public $casts = [
+        'product_substitutes' => 'json'
     ];
 
     /**
@@ -55,6 +62,8 @@ class IngredientRecipe extends Pivot
     {
         return $this->belongsTo(Recipe::class, 'recipe_id');
     }
+
+//    public function recipes()
 
     // : TODO relations in properties
 }

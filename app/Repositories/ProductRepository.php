@@ -34,19 +34,23 @@ class ProductRepository
      */
     public function setStatusActive(array $ids): bool
     {
-        Product::query()->select()->whereIn('id', $ids)->update(['status' => Product::$STATUS_ACTIVE]);
-        Product::query()->select()->where('status', '!=', Product::$STATUS_FORBIDDEN)->whereNotIn('id', $ids)->update(['status' => Product::$STATUS_AVAILABLE]);
+        Product::query()->select()->whereIn('id', $ids)->update(['status' => Product::STATUS_ACTIVE]);
+        Product::query()->select()->where('status', '!=', Product::STATUS_FORBIDDEN)->whereNotIn('id', $ids)->update(['status' => Product::STATUS_AVAILABLE]);
 
         return true;
     }
 
-    public function getByStatus(): array
+    /**
+     * @param int $status
+     * @return array
+     */
+    public function getByStatus(int $status): array
     {
         $result = Product::query()
             ->select()
-            ->where('status', '=', Product::$STATUS_ACTIVE)
+            ->where('status', '=', $status)
             ->getModels()
-            ;
+        ;
 
         return $result ?? [];
 

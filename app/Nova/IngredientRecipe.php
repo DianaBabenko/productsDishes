@@ -8,7 +8,12 @@ use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Code;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Text;
 
+/**
+ * Class IngredientRecipe
+ * @package App\Nova
+ */
 class IngredientRecipe extends Resource
 {
     /**
@@ -50,7 +55,9 @@ class IngredientRecipe extends Resource
 
             Number::make('Count'),
             BelongsTo::make('Measurement', 'measurement', Measurement::class),
-            Code::make('Product Substitutes', 'product_substitutes')->json(),
+
+//            BelongsToMany::make('R')
+//            Code::make('Product Substitutes', 'product_substitutes')->json([], true),
         ];
     }
 

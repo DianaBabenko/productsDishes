@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Recipe;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use App\Models\Recipe;
 use App\Models\RecipeSubcategory;
 use App\Repositories\ProductRepository;
 use App\Repositories\RecipeRepository;
+use App\Repositories\UserProductRepository;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
 
 /**
  * Class RecipeController
@@ -26,17 +29,25 @@ class RecipeController extends Controller
     private $products;
 
     /**
+     * @var UserProductRepository
+     */
+    private $userProducts;
+
+    /**
      * RecipeController constructor.
      * @param RecipeRepository $recipes
      * @param ProductRepository $products
+     * @param UserProductRepository $userProducts
      */
     public function __construct(
         RecipeRepository $recipes,
-        ProductRepository $products
+        ProductRepository $products,
+        UserProductRepository $userProducts
     )
     {
         $this->recipes = $recipes;
         $this->products = $products;
+        $this->userProducts = $userProducts;
     }
 
     /**
@@ -67,16 +78,16 @@ class RecipeController extends Controller
     }
 
     /**
+     * @param Request $request
      * @return View
      */
-    public function generateDishes(): View
+    public function generateDishes(Request $request): View
     {
-        $activeProducts = $this->products->getByStatus();
-
-        $activeRecipes = $this->recipes->getByProductIds($activeProducts);
+        $paginateRecipes = $this->recipes->generateDishes();
 
         return view('recipes.generate', [
-            'recipes' => $activeRecipes
+            'recipes' => $paginateRecipes,
         ]);
+
     }
 }

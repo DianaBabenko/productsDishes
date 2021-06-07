@@ -25,8 +25,8 @@
                                         @if ($product->category_id === $category->id)
                                             <div class="row ml-3">
                                                 <div class="">
-                                                    @if ($product->status !== \App\Models\Product::$STATUS_FORBIDDEN)
-                                                    <input class="mt-1" type="checkbox" name="product[]" @if ($product->status === \App\Models\Product::$STATUS_ACTIVE) checked @endif value="{{$product->id}}"/>
+                                                    @if ($product->status !== \App\Models\Product::STATUS_FORBIDDEN)
+                                                    <input class="mt-1" type="checkbox" name="product[]" @if ($product->status === \App\Models\Product::STATUS_ACTIVE) checked @endif value="{{$product->id}}"/>
                                                     @endif
                                                         <span class="ml-1">{{$product->name}}</span>
 
@@ -40,7 +40,7 @@
 {{--                                                    </div>--}}
 {{--                                                @endif--}}
 
-                                                @if ($product->status === \App\Models\Product::$STATUS_FORBIDDEN)
+                                                @if ($product->status === \App\Models\Product::STATUS_FORBIDDEN)
                                                     <span class="badge badge-pill ml-1 py-2 badge-danger">Danger for you</span>
                                                 @endif
                                             </div>
